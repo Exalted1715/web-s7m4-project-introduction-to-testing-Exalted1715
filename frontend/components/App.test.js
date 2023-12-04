@@ -6,6 +6,14 @@ import txt from '../i18n/index.json'
 
 describe('Module 4 Project Tests', () => {
   describe('English Language', () => {
+    // here we created a loop from all the arrays in txt containing 'text'. 
+    let texts = getEntriesByKeyPrefix(txt.en, 'TEXT')
+    for(let [key, val] of texts){
+      test (`${key} is visible`, () => {
+        render(<App />)
+        expect(screen.getByText(val)).toBeVisible()
+      })
+    }
     /*
       👉 TASK 1
 
@@ -132,10 +140,29 @@ describe('Module 4 Project Tests', () => {
       the tests are written _before_ implementing
       the function being tested.
     */
+      const obj = {
+        abc_1: "data_abc_1",
+        abc_2: "data_abc_2",
+        xyz_1: "data_xyz_1",
+        abc_3: "data_abc_3",
+      }
+      const expected =  [
+        ["abc_1", "data_abc_1"],
+        ["abc_2", "data_abc_2"],
+        ["abc_3", "data_abc_3"],
+      ]
+      const expected2 = 
+      [
+        ["xyz_1", "data_xyz_1"],
+      ]
+      expect(getEntriesByKeyPrefix(obj, 'abc')).toEqual(expected)
+      expect(getEntriesByKeyPrefix(obj, 'xyz')).toEqual(expected2)
+      expect(getEntriesByKeyPrefix(obj, 'foo')).toEqual([])
     })
   })
 })
 function getEntriesByKeyPrefix(obj, keyPrefix) {
+  return Object.entries(obj).filter(([key]) => key.split('_')[0]=== keyPrefix)
   /*
     👉 TASK 4 part 1
 
